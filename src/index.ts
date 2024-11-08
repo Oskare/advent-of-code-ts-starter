@@ -13,22 +13,25 @@ console.log(clc.red(figlet.textSync("Advent of Code 2024")));
 
 days.forEach(day => {
   const puzzleName = "day" + day;
-  const puzzleDay =  puzzleName.substring(0, puzzleName.length - 1);
+  const puzzleDay = puzzleName.substring(0, puzzleName.length - 1);
 
   program.command(puzzleName)
     .action(() => {
       import("./puzzles/" + puzzleDay)
         .then(p => {
-          console.log(clc.blue("Solving " + puzzleName + "...\n"));
+          console.log(clc.blue('Solving ' + puzzleName + '...\n'));
 
-          const input = fs.readFileSync(path.join("inputs", puzzleDay, "a.txt"), 'utf-8');
+          const input =
+            process.argv.length == 4 && process.argv[3] === 'sample' ?
+              fs.readFileSync(path.join('inputs', puzzleDay, 'a.sample.txt'), 'utf-8') :
+              fs.readFileSync(path.join('inputs', puzzleDay, 'a.txt'), 'utf-8');
 
           const start = performance.now();
-          const result = puzzleName.endsWith("b") ? p.partB(input) : p.partA(input);
+          const result = puzzleName.endsWith('b') ? p.partB(input) : p.partA(input);
           const elapsed = performance.now() - start;
 
           console.log(clc.blue('Result is ') + clc.bold(clc.green(result)));
-          console.log(clc.blue("Puzzle solved in ") + clc.bold(clc.green(elapsed.toFixed(2) + " ms!")));
+          console.log(clc.blue('Puzzle solved in ') + clc.bold(clc.green(elapsed.toFixed(2) + ' ms!')));
         })
         .catch((err) => {
           if (err.code === "MODULE_NOT_FOUND")

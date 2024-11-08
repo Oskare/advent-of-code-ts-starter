@@ -1,6 +1,4 @@
 # TODO:
-- implement generate
-- sample input
 - auth and fetch of data?
 
 # Run

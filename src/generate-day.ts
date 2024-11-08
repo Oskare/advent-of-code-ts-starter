@@ -27,7 +27,9 @@ const templateFile = path.join(startPath, "src", "day.template.ts");
 createDirectoryIfItDoesntExist(inputFolderPath);
 createDirectoryIfItDoesntExist(inputDayFolderPath);
 createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "a.txt"), 'Paste the part A input here');
+createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "a.sample.txt"), 'Paste the part A sample input here');
 createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "b.txt"), 'Paste the part B input here');
+createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "b.sample.txt"), 'Paste the part B sample input here');
 
 // code
 const templateContent = fs.readFileSync(templateFile);
