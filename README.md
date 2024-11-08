@@ -1,6 +1,3 @@
-# TODO:
-- auth and fetch of data?
-
 # Run
 ```
 npm run start day1a
@@ -15,3 +12,4 @@ npm run start day1a sample
 ```
 npm run generate day1
 ```
+If .env is set with a valid year and session cookie value, generation will automatically populate the puzzle input contents.

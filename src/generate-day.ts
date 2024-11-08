@@ -5,6 +5,8 @@ import {exit} from "process";
 import * as fs from 'fs';
 import path from "node:path";
 import {constants} from "node:fs";
+import dotenv from 'dotenv';
+import axios from 'axios';
 
 console.log(clc.red(figlet.textSync("Advent of Code 2024")));
 
@@ -14,6 +16,7 @@ if (process.argv.length === 2) {
 }
 
 const day = process.argv[2];
+const dayNumber = day.substring(3);
 console.log(clc.blue(`Generating ${day}...\n`));
 
 const startPath = process.cwd();
@@ -23,20 +26,41 @@ const puzzleFolderPath = path.join(startPath, "src", "puzzles");
 const puzzleFilePath = path.join(puzzleFolderPath, day + ".ts");
 const templateFile = path.join(startPath, "src", "day.template.ts");
 
-// input
+let partAInput = 'Paste the part A input here';
+let partASampleInput = 'Paste the part A sample input here';
+let partBInput = 'Paste the part B input here';
+let partBSampleInput = 'Paste the part B sample input here';
+
+// input files
 createDirectoryIfItDoesntExist(inputFolderPath);
 createDirectoryIfItDoesntExist(inputDayFolderPath);
-createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "a.txt"), 'Paste the part A input here');
-createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "a.sample.txt"), 'Paste the part A sample input here');
-createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "b.txt"), 'Paste the part B input here');
-createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "b.sample.txt"), 'Paste the part B sample input here');
+createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "a.txt"), partAInput);
+createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "a.sample.txt"), partASampleInput);
+createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "b.txt"), partBInput);
+createFileWithContentIfItDoesntExist(path.join(inputDayFolderPath, "b.sample.txt"), partBSampleInput);
 
-// code
-const templateContent = fs.readFileSync(templateFile);
+// code files
+const templateContent = fs.readFileSync(templateFile).toString();
 createDirectoryIfItDoesntExist(puzzleFolderPath);
 createFileWithContentIfItDoesntExist(puzzleFilePath, templateContent);
 
-function createDirectoryIfItDoesntExist(dir) {
+// download input if authenticated
+dotenv.config();
+const authCookie = process.env.AUTH_COOKIE;
+const year = process.env.YEAR;
+
+axios.get(
+  `https://adventofcode.com/${year}/day/${dayNumber}/input`,
+  {headers: {'Cookie': `session=${authCookie}`}})
+  .then(res => {
+    fs.writeFileSync(path.join(inputDayFolderPath, "a.txt"), res.data);
+    fs.writeFileSync(path.join(inputDayFolderPath, "b.txt"), res.data);
+  })
+  .catch(err => {
+    console.log('Failed to download input. Copy puzzle input manually.')
+  });
+
+function createDirectoryIfItDoesntExist(dir: string) {
   try {
     fs.accessSync(dir, constants.F_OK | constants.W_OK);
   } catch {
@@ -45,7 +69,7 @@ function createDirectoryIfItDoesntExist(dir) {
   }
 }
 
-function createFileWithContentIfItDoesntExist(name, content) {
+function createFileWithContentIfItDoesntExist(name: string, content: string) {
   try {
     fs.accessSync(name);
     console.log(`  File ${name} exists, will not overwrite.`);

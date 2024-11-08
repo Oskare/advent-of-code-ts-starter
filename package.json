@@ -16,9 +16,12 @@
     "typescript": "^5.6.3"
   },
   "dependencies": {
+    "@types/axios": "^0.14.4",
     "@types/node": "^22.9.0",
+    "axios": "^1.7.7",
     "cli-color": "^2.0.4",
     "commander": "^12.1.0",
+    "dotenv": "^16.4.5",
     "figlet": "^1.8.0",
     "process": "^0.11.10"
   }
