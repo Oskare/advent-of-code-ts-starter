@@ -11,7 +11,7 @@ npm run start day1a
 npm run start day1a sample
 ```
 
-# Generate puzzle files
+# Generate files
 ```
 npm run generate day1
 ```
