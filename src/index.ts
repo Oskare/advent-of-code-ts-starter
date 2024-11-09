@@ -5,6 +5,8 @@ import {Command} from "commander";
 import clc from "cli-color";
 import * as fs from 'fs';
 import path from "node:path";
+import dotenv from "dotenv";
+import axios from "axios";
 
 const program = new Command();
 const days = [...Array(24).keys()].flatMap(i => [(i + 1) + "a", (i + 1) + "b"]);
@@ -21,21 +23,21 @@ days.forEach(day => {
         .then(p => {
           console.log(clc.blue('Solving ' + puzzleName + '...\n'));
 
-          const input =
-            process.argv.length == 4 && process.argv[3] === 'sample' ?
-              fs.readFileSync(path.join('inputs', puzzleDay, 'a.sample.txt'), 'utf-8') :
-              fs.readFileSync(path.join('inputs', puzzleDay, 'a.txt'), 'utf-8');
-
+          const input = readInput(puzzleDay);
           const start = performance.now();
           const result = puzzleName.endsWith('b') ? p.partB(input) : p.partA(input);
           const elapsed = performance.now() - start;
 
           console.log(clc.blue('Result is ') + clc.bold(clc.green(result)));
           console.log(clc.blue('Puzzle solved in ') + clc.bold(clc.green(elapsed.toFixed(2) + ' ms!')));
+
+          if (process.argv.length == 4 && process.argv[3] === 'submit') {
+            submitResults(result, day);
+          }
         })
         .catch((err) => {
-          if (err.code === "MODULE_NOT_FOUND")
-            console.log(clc.cyan("Puzzle not solved yet!"))
+          if (err.code === "MODULE_NOT_FOUND" || err.code === 'ENOENT')
+            console.log(clc.yellow("Puzzle not solved yet!"))
           else
             console.log(clc.red(err));
         });
@@ -43,3 +45,37 @@ days.forEach(day => {
 });
 
 program.parse(process.argv);
+
+function readInput(puzzleDay: string): string {
+  return process.argv.length == 4 && process.argv[3] === 'sample' ?
+    fs.readFileSync(path.join('inputs', puzzleDay, 'a.sample.txt'), 'utf-8') :
+    fs.readFileSync(path.join('inputs', puzzleDay, 'a.txt'), 'utf-8');
+}
+
+function submitResults(answer: string, day: string): void {
+  console.log(clc.blue('\nSubmitting results...'))
+
+  dotenv.config();
+  const authCookie = process.env.AUTH_COOKIE;
+  const year = process.env.YEAR;
+  const dayNumber = day.slice(0, -1);
+  const level = day.substring(day.length - 1) === 'a' ? '1' : '2';
+
+  axios.post(
+    `https://adventofcode.com/${year}/day/${dayNumber}/answer`,
+    new URLSearchParams({level, answer}),
+    {headers: {'Cookie': `session=${authCookie}`, 'Content-Type': 'application/x-www-form-urlencoded'}})
+    .then(res => {
+      if (isCorrect(res.data.substring(res.data.indexOf('<article>'), res.data.indexOf('</article>'))))
+        console.log(clc.green('You submitted the correct answer!'));
+      else
+        console.log(clc.red('You submitted an incorrect answer.'));
+    })
+    .catch(() => {
+      console.log(clc.yellow('Failed to submit answer. Please input answer manually.\n'));
+    })
+}
+
+function isCorrect(responseMessage: string) {
+  return responseMessage.includes('That\'s the correct answer');
+}

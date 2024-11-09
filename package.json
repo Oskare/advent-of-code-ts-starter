@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "generate": "npm run build && node dist/generate-day.js",
     "build": "npx tsc",
+    "generate": "npm run build && node dist/generate-day.js",
     "start": "npm run build && node dist/index.js"
   },
   "author": "Oskare",

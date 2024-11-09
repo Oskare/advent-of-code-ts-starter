@@ -8,7 +8,12 @@ npm run start day1a
 npm run start day1a sample
 ```
 
-# Generate files
+# Run and submit result
+```
+npm run start day1a submit
+```
+
+# Generate files for a day
 ```
 npm run generate day1
 ```
