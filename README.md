@@ -15,8 +15,6 @@ Copy .env.example to .env and set **YEAR** and **AUTH_COOKIE** values to fully s
 ```
 npm run generate day1
 ```
-If .env is set with a valid **YEAR** and **AUTH_COOKIE** value, generation will automatically populate the puzzle input contents.
-
 Generates the following files:
 
 | File | Description |
@@ -26,6 +24,8 @@ Generates the following files:
 | inputs/day1/b.sample.txt | Sample input for the second part |
 | inputs/day1/b.txt | Puzzle input for the second part |
 | src/puzzles/day1.ts | Puzzle solution implementation |
+
+If .env is set with a valid **YEAR** and **AUTH_COOKIE** value, generation will automatically populate the puzzle input contents.
 
 ## Run with puzzle input
 ```
