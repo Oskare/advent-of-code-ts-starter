@@ -1,5 +1,5 @@
 # advent-of-code-ts-starter
-This is a template for solving Advent of Code puzzles in TypeScript.
+This is a template for solving Advent of Code puzzles with TypeScript.
 
 ## Setup
 ### Install
