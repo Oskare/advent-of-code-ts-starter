@@ -57,7 +57,7 @@ axios.get(
     fs.writeFileSync(path.join(inputDayFolderPath, "b.txt"), res.data);
     console.log('  Puzzle input downloaded.\n');
   })
-  .catch(err => {
+  .catch(() => {
     console.log(clc.yellow('  Failed to download input. Copy puzzle input manually.\n'));
   })
   .finally(() => {
