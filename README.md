@@ -1,29 +1,32 @@
-# Setup
-## Install
+# advent-of-code-ts-starter
+This is a template for solving Advent of Code puzzles in TypeScript.
+
+## Setup
+### Install
 Download the repository as a .zip to a local folder, then run
 ```
 npm install
 ```
 
-## Configure
+### Configure
 Copy .env.example to .env and set YEAR and AUTH_COOKIE values to fully support the generate and submit commands.
 
-# Run with puzzle input
+## Run with puzzle input
 ```
 npm run start day1a
 ```
 
-# Run with sample input
+## Run with sample input
 ```
 npm run start day1a sample
 ```
 
-# Run and submit result
+## Run and submit result
 ```
 npm run start day1a submit
 ```
 
-# Generate files for a day
+## Generate files for a day
 ```
 npm run generate day1
 ```
