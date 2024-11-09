@@ -25,7 +25,7 @@ Generates the following files:
 | inputs/day1/b.txt | Puzzle input for the second part |
 | src/puzzles/day1.ts | Puzzle solution implementation |
 
-If .env is set with a valid **YEAR** and **AUTH_COOKIE** value, generation will automatically populate the puzzle input contents.
+If .env is set with a valid **YEAR** and **AUTH_COOKIE** value, generation will automatically fetch the puzzle input contents from adventofcode.com.
 
 ## Run with puzzle input
 ```
@@ -41,3 +41,5 @@ npm run start day1a sample
 ```
 npm run start day1a submit
 ```
+
+This command will run the implemented solution and submit the results to adventofcode.com
