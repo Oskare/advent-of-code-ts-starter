@@ -55,9 +55,13 @@ axios.get(
   .then(res => {
     fs.writeFileSync(path.join(inputDayFolderPath, "a.txt"), res.data);
     fs.writeFileSync(path.join(inputDayFolderPath, "b.txt"), res.data);
+    console.log('  Puzzle input downloaded.\n');
   })
   .catch(err => {
-    console.log('Failed to download input. Copy puzzle input manually.')
+    console.log(clc.yellow('  Failed to download input. Copy puzzle input manually.\n'));
+  })
+  .finally(() => {
+    console.log(clc.blue('Generation finished.'));
   });
 
 function createDirectoryIfItDoesntExist(dir: string) {
