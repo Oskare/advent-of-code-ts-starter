@@ -9,7 +9,7 @@ npm install
 ```
 
 ### Configure
-Copy .env.example to .env and set YEAR and AUTH_COOKIE values to fully support the generate and submit commands.
+Copy .env.example to .env and set **YEAR** and **AUTH_COOKIE** values to fully support the **generate** and **submit** commands.
 
 ## Run with puzzle input
 ```
@@ -21,7 +21,7 @@ npm run start day1a
 npm run start day1a sample
 ```
 
-## Run and submit result
+## Run and submit answer
 ```
 npm run start day1a submit
 ```
@@ -30,7 +30,7 @@ npm run start day1a submit
 ```
 npm run generate day1
 ```
-If .env is set with a valid YEAR and AUTH_COOKIE value, generation will automatically populate the puzzle input contents.
+If .env is set with a valid **YEAR** and **AUTH_COOKIE** value, generation will automatically populate the puzzle input contents.
 
 Generates the following files:
 
