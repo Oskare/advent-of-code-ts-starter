@@ -11,7 +11,7 @@ import axios from "axios";
 const program = new Command();
 const days = [...Array(24).keys()].flatMap(i => [(i + 1) + "a", (i + 1) + "b"]);
 
-console.log(clc.red(figlet.textSync("Advent of Code 2024")));
+console.log(clc.red(figlet.textSync("Advent of Code Starter Repo")));
 
 days.forEach(day => {
   const puzzleName = "day" + day;
@@ -37,7 +37,7 @@ days.forEach(day => {
         })
         .catch((err) => {
           if (err.code === "MODULE_NOT_FOUND" || err.code === 'ENOENT')
-            console.log(clc.yellow("Puzzle not solved yet!"))
+            console.log(clc.yellow("Solution not implemented yet!"))
           else
             console.log(clc.red(err));
         });
