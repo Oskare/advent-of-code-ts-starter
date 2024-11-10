@@ -1,14 +1,13 @@
 #!/usr/bin/env node
-import figlet from "figlet";
 import clc from "cli-color";
 import {exit} from "process";
 import * as fs from 'fs';
 import path from "node:path";
 import {constants} from "node:fs";
-import dotenv from 'dotenv';
 import axios from 'axios';
+import {getConfig, printSplashScreen} from "./util";
 
-console.log(clc.red(figlet.textSync("Advent of Code")));
+printSplashScreen();
 
 if (process.argv.length === 2) {
   console.info("Usage: npm run generate {day}");
@@ -67,9 +66,7 @@ function createFileWithContentIfItDoesntExist(name: string, content: string) {
 }
 
 function downloadPuzzleInput() {
-  dotenv.config();
-  const authCookie = process.env.AUTH_COOKIE;
-  const year = process.env.YEAR;
+  const {authCookie, year} = getConfig();
 
   axios.get(
     `https://adventofcode.com/${year}/day/${dayNumber}/input`,

@@ -1,16 +1,15 @@
 #! /usr/bin/env node
-import figlet from "figlet";
 import {Command} from "commander";
 import clc from "cli-color";
 import * as fs from 'fs';
 import path from "node:path";
-import dotenv from "dotenv";
 import axios from "axios";
+import {getConfig, printSplashScreen} from "./util";
 
 const program = new Command();
 const days = [...Array(24).keys()].flatMap(i => [(i + 1) + "a", (i + 1) + "b"]);
 
-console.log(clc.red(figlet.textSync("Advent of Code")));
+printSplashScreen();
 
 days.forEach(day => {
   const puzzleName = "day" + day;
@@ -56,9 +55,7 @@ function readInput(puzzleDay: string, puzzlePart: number): string {
 function submitResults(answer: string, day: string): void {
   console.log(clc.blue('\nSubmitting results...'))
 
-  dotenv.config();
-  const authCookie = process.env.AUTH_COOKIE;
-  const year = process.env.YEAR;
+  const {authCookie, year} = getConfig();
   const dayNumber = day.slice(0, -1);
   const level = day.substring(day.length - 1) === 'a' ? '1' : '2';
 
@@ -82,11 +79,9 @@ function printAnswerFeedback(response: string) {
 
   if (responseMessage.includes('That\'s the right answer')) {
     console.log(clc.bold(clc.green('That\'s the right answer!')));
-  }
-  else if (responseMessage.includes('That\'s not the right answer')) {
+  } else if (responseMessage.includes('That\'s not the right answer')) {
     console.log(clc.red(responseMessage));
-  }
-  else {
+  } else {
     console.log(clc.yellow(responseMessage));
   }
 }
