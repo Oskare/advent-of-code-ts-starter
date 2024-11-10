@@ -77,5 +77,5 @@ function submitResults(answer: string, day: string): void {
 }
 
 function isCorrect(responseMessage: string) {
-  return responseMessage.includes('That\'s the correct answer');
+  return responseMessage.includes('That\'s the right answer');
 }
