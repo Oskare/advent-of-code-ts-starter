@@ -16,6 +16,7 @@ console.log(clc.red(figlet.textSync("Advent of Code")));
 days.forEach(day => {
   const puzzleName = "day" + day;
   const puzzleDay = puzzleName.substring(0, puzzleName.length - 1);
+  const puzzlePart = puzzleName.endsWith('a') ? 1 : 2;
 
   program.command(puzzleName)
     .action(() => {
@@ -23,9 +24,9 @@ days.forEach(day => {
         .then(p => {
           console.log(clc.blue('Solving ' + puzzleName + '...\n'));
 
-          const input = readInput(puzzleDay);
+          const input = readInput(puzzleDay, puzzlePart);
           const start = performance.now();
-          const result = puzzleName.endsWith('b') ? p.partB(input) : p.partA(input);
+          const result = puzzlePart === 1 ? p.partA(input) : p.partB(input);
           const elapsed = performance.now() - start;
 
           console.log(clc.blue('Result is ') + clc.bold(clc.green(result)));
@@ -46,10 +47,11 @@ days.forEach(day => {
 
 program.parse(process.argv);
 
-function readInput(puzzleDay: string): string {
-  return process.argv.length == 4 && process.argv[3] === 'sample' ?
-    fs.readFileSync(path.join('inputs', puzzleDay, 'a.sample.txt'), 'utf-8') :
-    fs.readFileSync(path.join('inputs', puzzleDay, 'a.txt'), 'utf-8');
+function readInput(puzzleDay: string, puzzlePart: number): string {
+  let fileName = puzzlePart === 1 ? 'a' : 'b';
+  fileName += process.argv.length == 4 && process.argv[3] === 'sample' ? '.sample' : '';
+  fileName += '.txt';
+  return fs.readFileSync(path.join('inputs', puzzleDay, fileName), 'utf-8');
 }
 
 function submitResults(answer: string, day: string): void {
