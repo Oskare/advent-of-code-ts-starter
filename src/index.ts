@@ -67,16 +67,26 @@ function submitResults(answer: string, day: string): void {
     new URLSearchParams({level, answer}),
     {headers: {'Cookie': `session=${authCookie}`, 'Content-Type': 'application/x-www-form-urlencoded'}})
     .then(res => {
-      if (isCorrect(res.data.substring(res.data.indexOf('<article>'), res.data.indexOf('</article>'))))
-        console.log(clc.green('You submitted the correct answer!'));
-      else
-        console.log(clc.red('You submitted an incorrect answer.'));
+      printAnswerFeedback(res.data);
     })
     .catch(() => {
       console.log(clc.yellow('Failed to submit answer. Please input answer manually.\n'));
     })
 }
 
-function isCorrect(responseMessage: string) {
-  return responseMessage.includes('That\'s the right answer');
+function printAnswerFeedback(response: string) {
+  let responseMessage = response
+    .substring(response.indexOf('<article><p>'), response.indexOf('</p></article>'))
+    .replace(/(<([^>]+)>)/ig, '') // Remove html tags
+    .replace(/\s*\[.*?\]/, "") // Remove return link text
+
+  if (responseMessage.includes('That\'s the right answer')) {
+    console.log(clc.bold(clc.green('That\'s the right answer!')));
+  }
+  else if (responseMessage.includes('That\'s not the right answer')) {
+    console.log(clc.red(responseMessage));
+  }
+  else {
+    console.log(clc.yellow(responseMessage));
+  }
 }
