@@ -1,7 +1,7 @@
-export const partA = (input: string) => {
+export const partA = (input: string): string => {
   return 'not implemented';
 }
 
-export const partB = (input: string) => {
+export const partB = (input: string): string => {
   return 'not implemented';
 }
