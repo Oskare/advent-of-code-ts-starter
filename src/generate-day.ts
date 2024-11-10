@@ -44,27 +44,8 @@ const templateContent = fs.readFileSync(templateFile).toString();
 createDirectoryIfItDoesntExist(puzzleFolderPath);
 createFileWithContentIfItDoesntExist(puzzleFilePath, templateContent);
 
-// download input if authenticated
-dotenv.config();
-const authCookie = process.env.AUTH_COOKIE;
-const year = process.env.YEAR;
-
-axios.get(
-  `https://adventofcode.com/${year}/day/${dayNumber}/input`,
-  {headers: {'Cookie': `session=${authCookie}`}})
-  .then(res => {
-    if (res.data[res.data.length - 1] === '\n') // Remove trailing newline
-      res.data = res.data.substring(0, res.data.length - 1);
-    fs.writeFileSync(path.join(inputDayFolderPath, "a.txt"), res.data);
-    fs.writeFileSync(path.join(inputDayFolderPath, "b.txt"), res.data);
-    console.log('  Puzzle input downloaded.\n');
-  })
-  .catch(() => {
-    console.log(clc.yellow('  Failed to download input. Copy puzzle input manually.\n'));
-  })
-  .finally(() => {
-    console.log(clc.blue('Generation finished.'));
-  });
+// download input
+downloadPuzzleInput();
 
 function createDirectoryIfItDoesntExist(dir: string) {
   try {
@@ -83,4 +64,27 @@ function createFileWithContentIfItDoesntExist(name: string, content: string) {
     console.log(`  Creating file ${name}`);
     fs.writeFileSync(name, content);
   }
+}
+
+function downloadPuzzleInput() {
+  dotenv.config();
+  const authCookie = process.env.AUTH_COOKIE;
+  const year = process.env.YEAR;
+
+  axios.get(
+    `https://adventofcode.com/${year}/day/${dayNumber}/input`,
+    {headers: {'Cookie': `session=${authCookie}`}})
+    .then(res => {
+      if (res.data[res.data.length - 1] === '\n') // Remove trailing newline
+        res.data = res.data.substring(0, res.data.length - 1);
+      fs.writeFileSync(path.join(inputDayFolderPath, "a.txt"), res.data);
+      fs.writeFileSync(path.join(inputDayFolderPath, "b.txt"), res.data);
+      console.log('  Puzzle input downloaded.\n');
+    })
+    .catch(() => {
+      console.log(clc.yellow('  Failed to download input. Copy puzzle input manually.\n'));
+    })
+    .finally(() => {
+      console.log(clc.blue('Generation finished.'));
+    });
 }
