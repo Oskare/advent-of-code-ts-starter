@@ -8,7 +8,7 @@ import {constants} from "node:fs";
 import dotenv from 'dotenv';
 import axios from 'axios';
 
-console.log(clc.red(figlet.textSync("Advent of Code Starter Repo")));
+console.log(clc.red(figlet.textSync("Advent of Code")));
 
 if (process.argv.length === 2) {
   console.info("Usage: npm run generate {day}");

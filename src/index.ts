@@ -11,7 +11,7 @@ import axios from "axios";
 const program = new Command();
 const days = [...Array(24).keys()].flatMap(i => [(i + 1) + "a", (i + 1) + "b"]);
 
-console.log(clc.red(figlet.textSync("Advent of Code Starter Repo")));
+console.log(clc.red(figlet.textSync("Advent of Code")));
 
 days.forEach(day => {
   const puzzleName = "day" + day;
