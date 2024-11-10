@@ -53,6 +53,8 @@ axios.get(
   `https://adventofcode.com/${year}/day/${dayNumber}/input`,
   {headers: {'Cookie': `session=${authCookie}`}})
   .then(res => {
+    if (res.data[res.data.length - 1] === '\n') // Remove trailing newline
+      res.data = res.data.substring(0, res.data.length - 1);
     fs.writeFileSync(path.join(inputDayFolderPath, "a.txt"), res.data);
     fs.writeFileSync(path.join(inputDayFolderPath, "b.txt"), res.data);
     console.log('  Puzzle input downloaded.\n');
